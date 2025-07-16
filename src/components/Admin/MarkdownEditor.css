@@ -1,0 +1,12 @@
+/* src/components/Admin/MarkdownEditor.css */
+
+.dark .mde-tabs button {
+    color: var(--color-gray-300);           /* same as text-gray-300 */
+  }
+  
+  .dark .mde-tabs button:hover,
+  .dark .mde-tabs button.selected {
+    color: var(--color-white);              /* same as text-white   */
+    border-bottom-color: var(--color-blue-500); /* border-b-blue-500 */
+  }
+  

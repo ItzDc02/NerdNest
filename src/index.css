@@ -48,3 +48,60 @@
            dark:text-slate-100 dark:bg-slate-800;
   }
 }
+
+
+
+/* =======================
+   ReactMde custom tweaks
+   ======================= */
+
+/* 1. Remove phantom gap on right by making the header a flex row
+      with tiny gap so inline‑block whitespace cannot render            */
+.react-mde .mde-header,
+.react-mde .mde-toolbar {
+  @apply flex flex-wrap items-center gap-1;
+}
+
+/* 2. Ensure toolbar buttons have zero default margin that some UA styles add */
+.react-mde .mde-toolbar button {
+  margin: 0 !important;
+}
+
+/* 3. Dark‑mode friendly Write / Preview tabs */
+.react-mde .mde-tabs button {
+  @apply px-2 py-1 text-sm font-medium rounded-t;
+}
+
+/* unselected */
+.react-mde .mde-tabs button:not(.selected) {
+  @apply bg-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200;
+}
+
+/* selected */
+.react-mde .mde-tabs button.selected {
+  @apply bg-white text-slate-900 border-b-0 dark:bg-slate-800 dark:text-slate-100;
+}
+
+/* Fix tiny 1px white line under tabs in dark mode */
+.react-mde .mde-tabs {
+  @apply border-b dark:border-slate-700;
+}
+
+/* 4. Give the editor surface a dark background so white toolbar doesn't look isolated */
+.react-mde .mde-textarea-wrapper textarea {
+  @apply bg-white dark:bg-slate-900 dark:text-slate-100;
+}
+
+/* Keep scrollbars visible in both themes */
+.react-mde .mde-textarea-wrapper {
+  @apply border dark:border-slate-700;
+}
+
+/* 1b. Stack tabs and toolbar vertically to eliminate horizontal whitespace
+       and prevent the giant gap to the right. */
+.react-mde .mde-header{
+  @apply flex space-y-1;
+}
+.react-mde .mde-toolbar{
+  @apply flex flex-wrap items-center gap-1 justify-start ml-0;
+}
