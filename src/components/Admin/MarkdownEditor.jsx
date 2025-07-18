@@ -3,6 +3,7 @@ import { useState } from 'react';
 import ReactMde from 'react-mde';
 import ReactMarkdown from 'react-markdown';
 import 'react-mde/lib/styles/css/react-mde-all.css';
+import './MarkdownEditor.override.css';
 
 export default function MarkdownEditor({ value, setValue, onChange }) {
   const [selectedTab, setSelectedTab] = useState('write');

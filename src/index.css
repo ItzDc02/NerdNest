@@ -49,8 +49,6 @@
   }
 }
 
-
-
 /* =======================
    ReactMde custom tweaks
    ======================= */
@@ -99,9 +97,9 @@
 
 /* 1b. Stack tabs and toolbar vertically to eliminate horizontal whitespace
        and prevent the giant gap to the right. */
-.react-mde .mde-header{
+.react-mde .mde-header {
   @apply flex space-y-1;
 }
-.react-mde .mde-toolbar{
+.react-mde .mde-toolbar {
   @apply flex flex-wrap items-center gap-1 justify-start ml-0;
 }

@@ -1,0 +1,19 @@
+/* Rest (inactive) ------------------------------------------------------- */
+.dark .react-mde .mde-header .mde-tabs button {
+  color: #0f172a; /* slate-700 text on white bar          */
+  background: transparent;
+}
+
+/* Hover ----------------------------------------------------------------- */
+.dark .react-mde .mde-header .mde-tabs button:hover {
+  color: #000000; /* white text                           */
+  border-color: #0f172a; /* merge with pill for solid look       */
+}
+
+/* Active ---------------------------------------------------------------- */
+.dark .react-mde .mde-header .mde-tabs button.selected {
+  background-color: #0f172a; /* same pill                            */
+  color: #ffffff;
+  border: 1px solid #334155 !important; /* darker slate border — THIS  ▸*/
+  border-bottom-color: #1d4ed8 !important; /* blue-700 underline           */
+}
