@@ -1,4 +1,6 @@
 
+
+<datalist id="tag-options">{allTags.map(t => <option key={t} value={t} />)}</datalist>
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { v4 as uuidv4 } from 'uuid';
@@ -8,7 +10,8 @@ import {
   updateDoc,
   doc,
   serverTimestamp,
-  getDoc
+  getDoc,
+  getDocs,
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../lib/firebase';
@@ -20,6 +23,26 @@ export default function ArticleForm({ fetchArticles, selected, setSelected, curr
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [tags, setTags] = useState('');
+
+  const [allTags, setAllTags] = useState([]);
+
+  useEffect(() => {
+    // fetch existing tags for autocomplete
+    (async () => {
+      try {
+        const snap = await getDocs(collection(db, "articles"));
+        const tagSet = new Set();
+        snap.docs.forEach(d => {
+          const t = d.data().tags;
+          if (Array.isArray(t)) t.forEach(tag => tagSet.add(tag));
+        });
+        setAllTags(Array.from(tagSet));
+      } catch (err) {
+        console.error("Failed to load tags:", err);
+      }
+    })();
+  }, []);
+
   const [published, setPublished] = useState(false);
   const [uploading, setUploading] = useState(false);
 
@@ -109,51 +132,51 @@ export default function ArticleForm({ fetchArticles, selected, setSelected, curr
   return (
     <div className="bg-gray-800 rounded-lg shadow-lg p-4 space-y-4">
 
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <h2 className="text-xl font-semibold">{selected ? 'Edit' : 'New'} Article</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <h2 className="text-xl font-semibold">{selected ? 'Edit' : 'New'} Article</h2>
 
-      <input
-        type="text"
-        required
-        placeholder="Title"
-        className="w-full border p-2 rounded"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-
-      <MarkdownEditor value={content} setValue={setContent} />
-
-      <div className="flex items-center gap-2">
-        <label className="text-sm font-medium">Upload image:</label>
-        <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploading} />
-        {uploading && <span className="text-xs text-gray-500">Uploading...</span>}
-      </div>
-
-      <input
-        type="text"
-        placeholder="Tags (comma separated)"
-        className="w-full border p-2 rounded"
-        value={tags}
-        onChange={(e) => setTags(e.target.value)}
-      />
-
-      <label className="flex items-center gap-2">
         <input
-          type="checkbox"
-          checked={published}
-          onChange={(e) => setPublished(e.target.checked)}
+          type="text"
+          required
+          placeholder="Title"
+          className="w-full border p-2 rounded"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
-        <span>Published</span>
-      </label>
 
-      <button
-        type="submit"
-        disabled={!isValid}
-        className={`px-4 py-2 rounded text-white \${isValid ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-300 cursor-not-allowed'}`}
-      >
-        {selected ? 'Update' : 'Create'}
-      </button>
-    </form>
-  </div>
-);
+        <MarkdownEditor value={content} setValue={setContent} />
+
+        <div className="flex items-center gap-2">
+          <label className="text-sm font-medium">Upload image:</label>
+          <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploading} />
+          {uploading && <span className="text-xs text-gray-500">Uploading...</span>}
+        </div>
+
+        <input
+          type="text"
+          placeholder="Tags (comma separated)"
+          className="w-full border p-2 rounded"
+          value={tags} list="tag-options"
+          onChange={(e) => setTags(e.target.value)}
+        />
+
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={published}
+            onChange={(e) => setPublished(e.target.checked)}
+          />
+          <span>Published</span>
+        </label>
+
+        <button
+          type="submit"
+          disabled={!isValid}
+          className={`px-4 py-2 rounded text-white \${isValid ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-300 cursor-not-allowed'}`}
+        >
+          {selected ? 'Update' : 'Create'}
+        </button>
+      </form>
+    </div>
+  );
 }
