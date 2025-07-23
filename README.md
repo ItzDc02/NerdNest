@@ -1,145 +1,137 @@
-# NerdNest, An IT Knowledge Base CMS (Self-Service Portal)
+# NerdNest – IT Knowledge Base CMS
 
-A modern, responsive, and easy-to-use portal for IT teams to publish helpful articles, answer frequently asked questions, and empower users to solve common problems on their own.  
-Built with React, Vite, Firebase, and Tailwind CSS for performance and scalability.
+NerdNest lets your support team write, publish and track self‑help articles without wrestling with custom code. It’s a lean React + Firebase app that ships what you need to keep tickets down and users happy.
 
 ---
 
-## ✨ Features
+## ✨ What It Can Do
 
-### 🚩 Article Management
+### 📄 Article management
 
-- **Rich-text editor:** Easily create, format, and update articles with headings, images, links, and more—no coding required.
-- **Categorization & tagging:** Organize content by topic or department for easy navigation and filtering.
-- **Draft & publish states:** Save work-in-progress as drafts and only publish when ready.
-- **Revision-friendly:** Edit articles at any time—changes are reflected instantly for all users.
+- **Markdown editor with live preview** – powered by React MDE and React Markdown
+- **Image uploads** – drag‑and‑drop files straight into the editor; Firebase Storage handles hosting
+- **Tags and categories** – keep everything organised for quick filtering
+- **Draft / publish toggle** – work in private, go public when ready
+- **Instant edits** – changes propagate the moment you hit *Save*
 
-### 🔎 Fast, Intuitive Search
+### 📊 Admin dashboard
 
-- **Instant search:** Users can search by title, keyword, or category with results updating in real-time.
-- **Filter & sort:** Quickly narrow down results by tag, category, or date.
-- **Smart suggestions:** See recommended articles as you type.
+- Metric cards show published articles, drafts, views and feedback in real time
+- Filterable article table with inline status badges and action dropdowns
+- Feedback list with direct links back to the source article
 
-### 👥 Authentication & Roles
+### 🔍 Quick search
 
-- **Secure login:** Built-in Firebase authentication (email/password).
-- **Role-based access:**  
-  - **Admins:** Full access to create, edit, delete, and manage articles & feedback.  
-  - **End-users:** Read-only access to the knowledge base and feedback features.
+- Debounced full‑text search across title, content and tags
+- Client‑side filters by category, tag or date
 
-### 📝 Feedback Collection
+### 🛡️ Authentication & roles
 
-- **Per-article feedback:** Users can rate articles (thumbs up/down) to indicate helpfulness.
-- **Comment form:** Collect suggestions, corrections, or questions—feedback is stored in Firestore and visible to admins for action.
-- **Analytics-ready:** Simple stats on which articles are most/least helpful.
+- Firebase Email/Password auth out of the box
+- **Admins** create, edit, delete and moderate
+- **End‑users** read and leave feedback
+- Protected routes built with a tiny `useAuth` hook and React Router
 
-### 🎨 Clean, Responsive Design
+### 💬 Feedback loop
 
-- **Mobile-first layout:** Looks great on all devices, from phones to desktop monitors.
-- **Light & dark mode:** Seamless theme toggle for better accessibility.
-- **Minimal & modern UI:** Easy navigation, distraction-free reading, and clear visual hierarchy.
-- **Lucide icons:** Crisp, open-source icons for a professional feel.
+- Thumbs‑up / down rating on every article
+- Optional comment box for suggestions or corrections
+- Admin inbox for triage
 
-### ⚡ Built for Developers
+### 🎨 Looks good everywhere
 
-- **Fast dev server:** Instant reloads and builds with Vite.
-- **Strict code quality:** ESLint and Prettier for clean, readable code.
-- **Environment variables:** Keep your config and secrets safe in `.env`.
-- **Well-structured components:** Easy to extend or adapt for your team.
+- Tailwind CSS with a custom colour palette and typography plugin
+- Dark‑mode switch (class based, zero flicker)
+- Mobile‑first layout tested from 320 px up
+- Lucide icons keep it lightweight and consistent
+
+### ⚙️ For developers
+
+- Vite dev server – hot reload in under a second
+- ESLint + Prettier + Tailwind plugins
+- Strict file layout so newcomers don’t get lost
+- One‑click Vercel deploy (`vercel.json` included)
 
 ---
 
 ## 🏗 Tech Stack
 
-- **Frontend:** React 18, Vite, Tailwind CSS  
-- **Backend (BaaS):** Firebase Auth & Firestore  
-- **Icons:** lucide-react  
-- **Linting/Formatting:** ESLint, Prettier
+| Layer       | Libraries / Services                                                  |
+| ----------- | --------------------------------------------------------------------- |
+| **UI**      | React 18, React Router 6, Tailwind CSS, react‑hot‑toast, lucide‑react |
+| **Editor**  | React MDE, React Markdown                                             |
+| **Data**    | Firebase Auth, Cloud Firestore, Firebase Storage                      |
+| **Tooling** | Vite 7, ESLint 9, Prettier, vite-plugin-svgr                          |
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Quick start
 
-1. **Clone & install**
+```bash
+# 1. Clone
+git clone https://github.com/ItzDc02/NerdNest.git
+cd NerdNest
 
-   ```bash
-   git clone https://github.com/<your-handle>/it-knowledge-base.git
-   cd it-knowledge-base
-   npm install
-   ```
+# 2. Install dependencies
+npm install
 
-2. **Set up Firebase**
+# 3. Configure Firebase
+cp .env.example .env   # then paste your own keys
+# You’ll need Auth (Email/Password), Firestore and Storage enabled.
 
-   - Create a Firebase project ([firebase.google.com](https://firebase.google.com/))
-   - Enable **Authentication** (Email/Password)
-   - Create a **Cloud Firestore** database
-   - Copy your config keys into a `.env` file:
+# 4. Run in dev
+npm run dev            # http://localhost:5173
+```
 
-     ```
-     VITE_FIREBASE_API_KEY=xxx
-     VITE_FIREBASE_AUTH_DOMAIN=xxx.firebaseapp.com
-     VITE_FIREBASE_PROJECT_ID=xxx
-     VITE_FIREBASE_STORAGE_BUCKET=xxx.appspot.com
-     VITE_FIREBASE_MESSAGING_SENDER_ID=123456789
-     VITE_FIREBASE_APP_ID=1:123456789:web:abcdef
-     VITE_FIREBASE_MEASUREMENT_ID=G-XXXXXXX
-     ```
-
-3. **Run in development**
-
-   ```bash
-   npm run dev
-   # Open http://localhost:5173 in your browser
-   ```
-
-4. **Build for production**
-
-   ```bash
-   npm run build
-   npm run preview
-   ```
+Production build: `npm run build && npm run preview`.
 
 ---
 
-## 🗂 Project Structure
+## 🌍 Deploy
+
+The repo ships with a `vercel.json`. Push to a GitHub repo, import in Vercel, add your Firebase env vars and you’re good.
+
+---
+
+## 📂 Project tour
 
 ```
 src/
-├── components/         # Reusable UI & logic modules
-│   ├── Admin/          # Admin dashboard, ArticleForm, ArticleList, FeedbackList
-│   ├── Auth/           # LoginForm, SignupForm, AuthContext
-│   └── Public/         # ArticleCard, FeedbackForm, SearchBar
-├── lib/
-│   └── firebase.js     # Firebase initialization & helpers
-├── App.jsx             # App shell & routes
-└── main.jsx            # Entry point
+├── assets/                static files & logo
+├── components/
+│   ├── Admin/             dashboard, editor, lists, widgets
+│   ├── Auth/              login & signup forms
+│   ├── Public/            article cards, search bar, feedback form
+│   └── Layout.jsx         header, sidebar, shell
+├── hooks/                 useAuth, other helpers
+├── lib/                   firebase.js
+├── pages/                 route‑level components
+├── utils/                 slugify, misc helpers
+└── main.jsx               entry point
 ```
 
 ---
 
-## 🛠 Possible Extensions
+## 🛣 Roadmap
 
-- 🔍 **Algolia search integration** for blazing-fast, typo-tolerant search
-- 📝 **Article version history** and restore
-- 🗂 **Bulk import/export** (Markdown, CSV, or JSON)
-- 🛡️ **Custom user permissions** (editors, reviewers)
-- 📊 **Detailed analytics** dashboard
-- ✅ **Unit & integration tests** (Vitest + React Testing Library)
+- Algolia powered fuzzy search
+- Version history with diff & restore
+- Custom roles (editors, reviewers)
+- Detailed analytics dashboard
+- End‑to‑end tests with Playwright
 
 ---
 
 ## 🤝 Contributing
 
-Pull requests, bug reports, and feature suggestions are welcome!  
-Open an issue to discuss your idea or get help.
+Fork, branch, code, open a PR. Bug reports and feature ideas welcome too.
 
 ---
 
-## 📄 License
+## 📜 License
 
-MIT — Free to use, modify, and distribute.
+MIT
 
 ---
 
-**Questions?**  
-File an issue or reach out to [deepamchakraborty3639@gmail.com](mailto:deepamchakraborty3639@gmail.com).
+Questions? Open an issue or write to [**deepamchakraborty3639@gmail.com**](mailto\:deepamchakraborty3639@gmail.com).
